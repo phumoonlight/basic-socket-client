@@ -1,0 +1,28 @@
+.message {
+  width: 600px;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.socketId {
+  width: 450px;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Prompt', sans-serif;
+}
+
+.form {
+  display: block;
+  text-align: center;
+}
+
+.formBlock {
+  width: 500px;
+  margin: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}

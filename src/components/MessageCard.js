@@ -1,16 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Paper from '@material-ui/core/Paper'
+import css from './MessageCard.module.css'
 
 const MessageCard = ({ senderName, senderSocketId, message }) => (
-  <div style={{ border: 'solid black 1px' }}>
+  <Paper elevation={1} className={css.container}>
     <div>
       {senderName}
-      {`(${senderSocketId})`}
+      <span className={css.socketId}>
+        {` @${senderSocketId}`}
+      </span>
     </div>
     <div>
       {`: ${message}`}
     </div>
-  </div>
+  </Paper>
 )
 
 MessageCard.propTypes = {

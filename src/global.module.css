@@ -1,7 +1,0 @@
-.message {
-  max-height: 75vh;
-  width: 500px;
-  margin: auto;
-  overflow-y: scroll;
-  border: solid rgb(44, 73, 0) 2.5px;
-}
