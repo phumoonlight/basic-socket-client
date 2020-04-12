@@ -6,7 +6,7 @@ const useSocket = (url) => {
 
   React.useEffect(() => {
     const socketIo = io(url)
-    socketIo.on('connect', function(){
+    socketIo.on('connect', function () {
       console.log('connected', socketIo.id)
     })
 
@@ -22,31 +22,41 @@ const useSocket = (url) => {
 }
 
 const Index = () => {
-  const [id, setId] = React.useState('...')
-  const [value, setValue] = React.useState('')
-  const [isSender, setIsSender] = React.useState(false)
-  const socket = useSocket('https://basic-socket-server.herokuapp.com/')
+  const [chatLogs, setChatLogs] = React.useState([])
+  const socket = useSocket(process.env.HOST_SERVER)
   React.useEffect(() => {
     if (socket) {
-      setId(socket.id)
-      socket.on('broadcast', (data) => {
-        setIsSender(false)
-        console.log(data)
-        if (!isSender) setValue(data)
+      socket.on('broadcast', (log) => {
+        setChatLogs(log)
       })
     }
   }, [socket])
 
   return (
     <div>
-      <div>{id}</div>
-      <input onChange={(e) => {
-        setIsSender(true)
-        if(socket) {
-          socket.emit('cc', e.target.value)
-          setValue(isSender ? e.target.value : value)
-        }
-      }} value={value} />
+      <div>{socket && socket.id}</div>
+      <form onSubmit={(e) => {
+        e.preventDefault()
+        const sender = e.target.user.value
+        const message = e.target.chat.value
+        if (socket) socket.emit('cc', {
+          sender,
+          id: socket.id,
+          message,
+        })
+        console.log(e.target.chat.value)
+        e.target.chat.value = ''
+      }}>
+        <input name="user" placeholder="name" />
+        <input name="chat" placeholder="message" />
+        <input type="submit" value="Send" />
+      </form>
+      {chatLogs.map(log => (
+        <div style={{border: 'solid black 1px'}} key={log.chatid}>
+          <div>{log.sender} ({log.id})</div>
+          <div> : {log.message}</div>
+        </div>
+      ))}
     </div>
   )
 }
