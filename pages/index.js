@@ -1,62 +1,36 @@
 import React from 'react'
-import io from 'socket.io-client'
-
-const useSocket = (url) => {
-  const [socket, setSocket] = React.useState(null)
-
-  React.useEffect(() => {
-    const socketIo = io(url)
-    socketIo.on('connect', function () {
-      console.log('connected', socketIo.id)
-    })
-
-    setSocket(socketIo)
-
-    function cleanup() {
-      socketIo.disconnect()
-    }
-    return cleanup
-  }, [])
-
-  return socket
-}
+import MessageCard from '../src/components/MessageCard'
+import useSocket from '../src/libs/useSocket'
+import useSocketMessage from '../src/libs/useSocketMessage'
+import css from '../src/global.module.css'
 
 const Index = () => {
-  const [chatLogs, setChatLogs] = React.useState([])
-  const socket = useSocket(process.env.HOST_SERVER)
-  React.useEffect(() => {
-    if (socket) {
-      socket.on('broadcast', (log) => {
-        setChatLogs(log)
-      })
-    }
-  }, [socket])
-
+  const socket = useSocket()
+  const [messages, emitMessage] = useSocketMessage(socket)
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const { target: { username, message } } = event
+    emitMessage({ sender: username.value, message: message.value })
+    message.value = ''
+  }
   return (
     <div>
       <div>{socket && socket.id}</div>
-      <form onSubmit={(e) => {
-        e.preventDefault()
-        const sender = e.target.user.value
-        const message = e.target.chat.value
-        if (socket) socket.emit('cc', {
-          sender,
-          id: socket.id,
-          message,
-        })
-        console.log(e.target.chat.value)
-        e.target.chat.value = ''
-      }}>
-        <input name="user" placeholder="name" />
-        <input name="chat" placeholder="message" />
+      <form onSubmit={handleSubmit}>
+        <input name="username" placeholder="username..." />
+        <input name="message" placeholder="message..." />
         <input type="submit" value="Send" />
       </form>
-      {chatLogs.map(log => (
-        <div style={{border: 'solid black 1px'}} key={log.chatid}>
-          <div>{log.sender} ({log.id})</div>
-          <div> : {log.message}</div>
-        </div>
-      ))}
+      <div className={css.message}>
+        {messages.map((log) => (
+          <MessageCard
+            key={log.chatid}
+            senderName={log.sender}
+            senderSocketId={log.id}
+            message={log.message}
+          />
+        ))}
+      </div>
     </div>
   )
 }
