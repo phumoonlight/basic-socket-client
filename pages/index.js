@@ -17,34 +17,39 @@ const Index = () => {
     message.value = ''
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit} className={css.form}>
-        <div className={css.formBlock}>
-          <TextField
-            label="Username"
-            name="username"
-            style={{ width: '100%' }}
-          />
-        </div>
-        <div className={css.formBlock}>
-          <TextField
-            label="What's on your mind"
-            variant="filled"
-            name="message"
-            style={{ width: '100%' }}
-          />
-        </div>
-        <div className={css.formBlock}>
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            style={{ width: '100%' }}
-          >
-            POST
-          </Button>
-        </div>
-      </form>
+    <div className={css.root}>
+      <Paper className={css.formContainer}>
+        <form onSubmit={handleSubmit} className={css.form}>
+          <div className={css.formBlock}>
+            <TextField
+              variant="filled"
+              label="Username"
+              name="username"
+              size="small"
+              className={css.formInput}
+            />
+          </div>
+          <div className={css.formBlock}>
+            <TextField
+              variant="filled"
+              label="What's on your mind"
+              name="message"
+              size="medium"
+              className={css.formInput}
+            />
+          </div>
+          <div className={css.formBlock}>
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit"
+              className={css.formInput}
+            >
+              POST
+            </Button>
+          </div>
+        </form>
+      </Paper>
       <div className={css.message}>
         {messages.map((log) => (
           <MessageCard

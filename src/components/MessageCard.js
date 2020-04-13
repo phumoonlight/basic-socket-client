@@ -5,11 +5,11 @@ import css from './MessageCard.module.css'
 
 const MessageCard = ({ senderName, senderSocketId, message }) => (
   <Paper elevation={1} className={css.container}>
+    <div className={css.socketId}>
+      {`@${senderSocketId}`}
+    </div>
     <div>
       {senderName}
-      <span className={css.socketId}>
-        {` @${senderSocketId}`}
-      </span>
     </div>
     <div>
       {`: ${message}`}

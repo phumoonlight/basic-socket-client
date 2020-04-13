@@ -13,9 +13,9 @@ const useSocketMessage = (socket) => {
 
   const emitMessage = (payload) => {
     if (socket) {
-      socket.emit('cc', {
+      socket.emit('client-message', {
         id: socket.id,
-        sender: payload.sender,
+        sender: payload.sender || 'Anonymous',
         message: payload.message,
       })
     }
