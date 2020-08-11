@@ -10,11 +10,13 @@
 
 .socketId {
   padding: 5px;
-  margin-left: 20%;
-  margin-right: 20%;
   text-align: center;
   font-weight: bold;
   font-family: 'Prompt', sans-serif;
+}
+
+.formlayout {
+  text-align: center;
 }
 
 .formBlock {
@@ -27,11 +29,17 @@
 
 .formContainer {
   padding: 5px;
-  margin-left: 10%;
-  margin-right: 10%;
+  display: inline-block;
 }
 
-@media only screen and (max-width: 426px) {
+.page-title {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 20px;
+}
+
+/* @media only screen and (max-width: 426px) {
   .formContainer {
     margin-left: 5%;
     margin-right: 5%;
@@ -40,5 +48,5 @@
   .socketId {
     margin-left: 10%;
     margin-right: 10%;
-  }
-}
+  } 
+} */
